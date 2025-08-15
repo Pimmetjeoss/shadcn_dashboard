@@ -106,7 +106,7 @@ dist
 
 # Gatsby files
 .cache/
-public
+# public - removed to allow CSV data files
 
 # Storybook build outputs
 .out
