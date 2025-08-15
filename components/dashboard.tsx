@@ -119,6 +119,7 @@ export function Dashboard({ data, metrics, reducedMode = false }: DashboardProps
         return (
           <DataQuality 
             data={data}
+            metrics={metrics}
             onExportClick={handleExportClick}
           />
         )
