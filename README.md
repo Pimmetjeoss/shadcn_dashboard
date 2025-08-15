@@ -51,32 +51,96 @@ Een professionele, enterprise-grade applicatie suite gebouwd met Next.js, shadcn
 - **Leeftijdbereik**: 20-101 jaar
 - **Vermogensbereik**: $2.4B - $405.6B
 
-## 🚀 Snel Starten
+## 💻 Systeem Vereisten
 
-### Vereisten
-- Node.js 18+ 
-- npm of yarn
+### **Minimale Vereisten**
+- **Node.js**: 18.17.0 of hoger (LTS aanbevolen)
+- **RAM**: 4GB vrij geheugen (voor grote datasets)
+- **Schijfruimte**: 500MB voor installatie + uploads
+- **Browser**: Chrome 90+, Firefox 88+, Safari 14+, Edge 90+
 
-### Installatie
+### **Aanbevolen Setup**
+- **Node.js**: 20.x LTS
+- **RAM**: 8GB of meer
+- **SSD**: Voor snellere file processing
+- **Moderne browser**: Voor optimale performance
+
+### **OS Compatibiliteit**
+- ✅ Windows 10/11
+- ✅ macOS 10.15+
+- ✅ Linux (Ubuntu 20.04+, CentOS 8+)
+
+## 🚀 Complete Installatie Guide
+
+### **Stap 1: Repository Klonen**
 ```bash
-# Installeer dependencies
+# Clone de repository
+git clone https://github.com/Pimmetjeoss/shadcn_dashboard.git
+
+# Ga naar de project directory
+cd shadcn_dashboard
+```
+
+### **Stap 2: Node.js Versie Setup**
+```bash
+# Als je nvm gebruikt (aanbevolen)
+nvm use
+
+# Of installeer Node.js 18.17.0+ handmatig vanaf nodejs.org
+node --version  # Moet 18.17.0+ tonen
+```
+
+### **Stap 3: Dependencies Installeren**
+```bash
+# Installeer alle benodigde packages
 npm install
 
+# Verificeer installatie
+npm list --depth=0
+```
+
+### **Stap 4: Environment Setup**
+```bash
+# Kopieer environment template
+cp .env.example .env.local
+
+# Optioneel: Bewerk .env.local voor custom configuratie
+# Voor basis gebruik zijn de defaults voldoende
+```
+
+### **Stap 5: Applicatie Starten**
+```bash
 # Start development server
 npm run dev
 
-# Build voor productie
-npm run build
-npm start
+# Open browser en ga naar:
+# http://localhost:3000
 ```
 
-### Development
-```bash
-# Type checking
-npm run type-check
+### **Stap 6: Verificatie**
+- ✅ Pagina laadt zonder errors
+- ✅ App launcher menu werkt (hamburger icon)
+- ✅ Alle 4 applicaties zijn toegankelijk
+- ✅ Forbes data wordt correct geladen
 
-# Linting
-npm run lint
+## 🛠️ Development Commands
+
+```bash
+# Development server
+npm run dev                 # Start dev server op localhost:3000
+
+# Build commands  
+npm run build              # Production build
+npm start                  # Start production server
+
+# Code quality
+npm run lint               # ESLint checking
+npm run type-check         # TypeScript verificatie
+
+# Pakket management
+npm install                # Installeer dependencies
+npm update                 # Update packages
+npm audit                  # Security check
 ```
 
 ## 🏗️ Architectuur
@@ -210,6 +274,144 @@ Voor vragen en problemen:
 - Maak een GitHub issue
 - Bekijk de Help sectie in de applicatie
 - Raadpleeg de documentatie
+
+## 🔧 Troubleshooting
+
+### **Veelvoorkomende Problemen**
+
+#### **❌ "Cannot find module" Error**
+```bash
+# Oplossing: Reinstall dependencies
+rm -rf node_modules package-lock.json
+npm install
+```
+
+#### **❌ "Port 3000 is already in use"**
+```bash
+# Oplossing 1: Gebruik andere poort
+npm run dev -- -p 3001
+
+# Oplossing 2: Kill proces op poort 3000
+# Windows:
+netstat -ano | findstr :3000
+taskkill /PID <process_id> /F
+
+# macOS/Linux:
+lsof -ti:3000 | xargs kill -9
+```
+
+#### **❌ Memory Errors / "JavaScript heap out of memory"**
+```bash
+# Oplossing: Verhoog memory limit
+export NODE_OPTIONS="--max-old-space-size=8192"
+npm run dev
+
+# Of gebruik de ingebouwde script
+npm run dev  # Gebruikt al --max-old-space-size=4096
+```
+
+#### **❌ "Module not found: Can't resolve 'fs'"**
+```bash
+# Dit is normaal - 'fs' werkt niet in browser
+# De fout verdwijnt meestal na eerste build
+npm run build
+```
+
+#### **❌ TypeScript Errors**
+```bash
+# Oplossing: Check en fix types
+npm run type-check
+
+# Als errors persisteren:
+rm -rf .next
+npm run build
+```
+
+#### **❌ ESLint Warnings**
+```bash
+# Fix automatische problemen
+npm run lint -- --fix
+
+# Voor handmatige fixes
+npm run lint
+```
+
+### **Performance Problemen**
+
+#### **🐌 Langzame Laadtijden**
+- **Geheugen**: Zorg voor minimaal 4GB vrij RAM
+- **Node.js**: Update naar nieuwste LTS versie
+- **Browser**: Gebruik Chrome/Edge voor beste performance
+- **Dataset**: Grote CSV files kunnen lang duren om te laden
+
+#### **🐌 App Switching Traag**
+- **Browser Cache**: Clear browser cache en reload
+- **Memory**: Sluit andere browser tabs
+- **Dev Tools**: Sluit developer tools tijdens gebruik
+
+### **OS-Specifieke Issues**
+
+#### **Windows**
+```powershell
+# Als npm install faalt:
+npm install --force
+
+# Voor path issues:
+set PATH=%PATH%;C:\Users\<username>\AppData\Roaming\npm
+```
+
+#### **macOS**
+```bash
+# Voor permission errors:
+sudo chown -R $(whoami) ~/.npm
+
+# Voor M1/M2 Macs:
+arch -x64 npm install
+```
+
+#### **Linux**
+```bash
+# Voor permission issues:
+sudo chown -R $USER /usr/local/lib/node_modules
+
+# Voor oude Node.js:
+curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+### **Development Issues**
+
+#### **Hot Reload Werkt Niet**
+```bash
+# Restart dev server
+Ctrl+C
+npm run dev
+
+# Check .next cache
+rm -rf .next
+npm run dev
+```
+
+#### **Environment Variables Worden Niet Geladen**
+- Check `.env.local` exists
+- Restart development server
+- Variabelen moeten starten met `NEXT_PUBLIC_` voor client-side
+
+### **Nog Steeds Problemen?**
+
+1. **Check Node.js versie**: `node --version` (moet 18.17.0+ zijn)
+2. **Check npm versie**: `npm --version` (moet 8+ zijn)
+3. **Reinstall alles**:
+   ```bash
+   rm -rf node_modules package-lock.json .next
+   npm install
+   npm run dev
+   ```
+4. **Create GitHub Issue** met:
+   - OS en versie
+   - Node.js versie
+   - Exacte error message
+   - Stappen om te reproduceren
 
 ## 🎉 Toekomstige Features
 
